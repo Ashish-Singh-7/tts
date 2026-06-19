@@ -24,21 +24,49 @@
 
 </form>
 
-{% if audio %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text To Speech Converter</title>
+</head>
+<body>
 
-<h2>Audio Output</h2>
+    <h1>Text To Speech Converter</h1>
 
-<audio controls>
-    <source src="{{audio}}" type="audio/mp3">
-</audio>
+    <form action="/convert" method="POST">
 
-<br><br>
+        <textarea
+            name="text"
+            rows="10"
+            cols="60"
+            placeholder="Enter text here..."
+            required></textarea>
 
-<a href="{{audio}}" download>
-    Download Audio
-</a>
+        <br><br>
 
-{% endif %}
+        <button type="submit">
+            Convert
+        </button>
+
+    </form>
+
+    {% if audio_data %}
+
+        <h2>Audio Output</h2>
+
+        <audio controls>
+            <source src="data:audio/mp3;base64,{{ audio_data }}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+
+        <br><br>
+
+        <a href="data:audio/mp3;base64,{{ audio_data }}"
+           download="speech.mp3">
+            Download Audio
+        </a>
+
+    {% endif %}
 
 </body>
 </html>
