@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from gtts import gTTS
-from langdetect import detect, LangDetectException
-import os
+from io import BytesIO
+from langdetect import detect
 
 app = Flask(__name__)
 
@@ -9,39 +9,27 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-
 @app.route("/convert", methods=["POST"])
 def convert():
-
-    text = request.form["text"].strip()
-
-    if not text:
-        return render_template(
-            "index.html",
-            error="Please enter some text."
-        )
+    text = request.form["text"]
 
     try:
         lang = detect(text)
-    except LangDetectException:
-        lang = "hi"
-
-    os.makedirs("static/audio", exist_ok=True)
-
-    filepath = "static/audio/output.mp3"
+    except:
+        lang = "en"
 
     if lang == "hi":
         tts = gTTS(text=text, lang="hi")
     else:
         tts = gTTS(text=text, lang="en", tld="co.in")
 
-    tts.save(filepath)
+    mp3_fp = BytesIO()
+    tts.write_to_fp(mp3_fp)
+    mp3_fp.seek(0)
 
-    return render_template(
-        "index.html",
-        audio=filepath,
-        detected_language=lang
+    return send_file(
+        mp3_fp,
+        mimetype="audio/mpeg",
+        as_attachment=False,
+        download_name="speech.mp3"
     )
-
-if __name__ == "__main__":
-    app.run(debug=True)
