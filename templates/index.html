@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text To Speech</title>
+</head>
+<body>
+
+<h1>Text To Speech Converter</h1>
+
+<form action="/convert" method="POST">
+
+    <textarea
+        name="text"
+        rows="15"
+        cols="500"
+        placeholder="Enter text here">
+    </textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Convert
+    </button>
+
+</form>
+
+{% if audio %}
+
+<h2>Audio Output</h2>
+
+<audio controls>
+    <source src="{{audio}}" type="audio/mp3">
+</audio>
+
+<br><br>
+
+<a href="{{audio}}" download>
+    Download Audio
+</a>
+
+{% endif %}
+
+</body>
+</html>
