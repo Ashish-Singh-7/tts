@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Text To Speech</title>
+    <title>Text To Speech Converter</title>
 </head>
 <body>
 
@@ -11,9 +11,10 @@
 
     <textarea
         name="text"
-        rows="15"
-        cols="500"
-        placeholder="Enter text here">
+        rows="10"
+        cols="60"
+        placeholder="Enter text here..."
+        required>
     </textarea>
 
     <br><br>
@@ -24,49 +25,24 @@
 
 </form>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Text To Speech Converter</title>
-</head>
-<body>
+{% if audio_data %}
 
-    <h1>Text To Speech Converter</h1>
+<h2>Audio Output</h2>
 
-    <form action="/convert" method="POST">
+<audio controls>
+    <source
+        src="data:audio/mp3;base64,{{ audio_data }}"
+        type="audio/mp3">
+</audio>
 
-        <textarea
-            name="text"
-            rows="10"
-            cols="60"
-            placeholder="Enter text here..."
-            required></textarea>
+<br><br>
 
-        <br><br>
+<a href="data:audio/mp3;base64,{{ audio_data }}"
+   download="speech.mp3">
+   Download Audio
+</a>
 
-        <button type="submit">
-            Convert
-        </button>
-
-    </form>
-
-    {% if audio_data %}
-
-        <h2>Audio Output</h2>
-
-        <audio controls>
-            <source src="data:audio/mp3;base64,{{ audio_data }}" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <br><br>
-
-        <a href="data:audio/mp3;base64,{{ audio_data }}"
-           download="speech.mp3">
-            Download Audio
-        </a>
-
-    {% endif %}
+{% endif %}
 
 </body>
 </html>

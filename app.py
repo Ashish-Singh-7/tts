@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request
 from gtts import gTTS
 from io import BytesIO
 from langdetect import detect
+import base64
 
 app = Flask(__name__)
 
@@ -25,11 +26,15 @@ def convert():
 
     mp3_fp = BytesIO()
     tts.write_to_fp(mp3_fp)
-    mp3_fp.seek(0)
 
-    return send_file(
-        mp3_fp,
-        mimetype="audio/mpeg",
-        as_attachment=False,
-        download_name="speech.mp3"
+    audio_data = base64.b64encode(
+        mp3_fp.getvalue()
+    ).decode()
+
+    return render_template(
+        "index.html",
+        audio_data=audio_data
     )
+
+if __name__ == "__main__":
+    app.run(debug=True)
