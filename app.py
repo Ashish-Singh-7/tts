@@ -47,6 +47,7 @@ import base64
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -64,14 +65,14 @@ def convert():
     except:
         lang = "en"
 
-    # Hindi Voices
+    # Hindi voices
     if lang == "hi":
         if gender == "male":
             voice = "hi-IN-MadhurNeural"
         else:
             voice = "hi-IN-SwaraNeural"
 
-    # English Voices
+    # English voices
     else:
         if gender == "male":
             voice = "en-IN-PrabhatNeural"
@@ -88,7 +89,10 @@ def convert():
 
     return render_template(
         "index.html",
-        audio_data=audio_data
+        audio_data=audio_data,
+        text=text,
+        gender=gender,
+        speed=speed
     )
 
 
@@ -103,6 +107,7 @@ async def generate_audio(text, voice, speed):
     audio_data = b""
 
     async for chunk in communicate.stream():
+
         if chunk["type"] == "audio":
             audio_data += chunk["data"]
 
