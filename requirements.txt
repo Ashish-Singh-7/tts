@@ -1,3 +1,4 @@
 Flask
-gTTS
 langdetect
+edge-tts
+gunicorn
