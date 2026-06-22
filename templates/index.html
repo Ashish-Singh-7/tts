@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Text To Speech Converter</title>
@@ -38,6 +38,76 @@
 <br><br>
 
 <a href="data:audio/mp3;base64,{{ audio_data }}"
+   download="speech.mp3">
+   Download Audio
+</a>
+
+{% endif %}
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text To Speech Converter</title>
+</head>
+<body>
+
+    <h1>Text To Speech Converter</h1>
+
+    <form action="/convert" method="POST">
+
+        <textarea
+            name="text"
+            rows="10"
+            cols="60"
+            placeholder="Enter text here..."
+            required></textarea>
+
+        <br><br>
+
+        <label>Select Voice:</label>
+
+        <select name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <br><br>
+
+        <label>Speed:</label>
+
+        <select name="speed">
+            <option value="-50%">0.5x</option>
+            <option value="-25%">0.75x</option>
+            <option value="+0%" selected>1x (Normal)</option>
+            <option value="+25%">1.25x</option>
+            <option value="+50%">1.5x</option>
+            <option value="+100%">2x</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Generate Audio
+        </button>
+
+    </form>
+
+{% if audio_data %}
+
+<h2>Audio Output</h2>
+
+<audio controls>
+    <source
+        src="data:audio/mpeg;base64,{{ audio_data }}"
+        type="audio/mpeg">
+</audio>
+
+<br><br>
+
+<a href="data:audio/mpeg;base64,{{ audio_data }}"
    download="speech.mp3">
    Download Audio
 </a>
