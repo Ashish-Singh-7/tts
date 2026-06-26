@@ -1,44 +1,3 @@
-# from flask import Flask, render_template, request
-# from gtts import gTTS
-# from io import BytesIO
-# from langdetect import detect
-# import base64
-
-# app = Flask(__name__)
-
-# @app.route("/")
-# def home():
-#     return render_template("index.html")
-
-# @app.route("/convert", methods=["POST"])
-# def convert():
-#     text = request.form["text"]
-
-#     try:
-#         lang = detect(text)
-#     except:
-#         lang = "en"
-
-#     if lang == "hi":
-#         tts = gTTS(text=text, lang="hi")
-#     else:
-#         tts = gTTS(text=text, lang="en", tld="co.in")
-
-#     mp3_fp = BytesIO()
-#     tts.write_to_fp(mp3_fp)
-
-#     audio_data = base64.b64encode(
-#         mp3_fp.getvalue()
-#     ).decode()
-
-#     return render_template(
-#         "index.html",
-#         audio_data=audio_data
-#     )
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
 from flask import Flask, render_template, request
 from langdetect import detect
 import edge_tts
@@ -59,25 +18,44 @@ def convert():
     text = request.form["text"]
     gender = request.form["gender"]
     speed = request.form["speed"]
+    style = request.form["style"]
 
     try:
         lang = detect(text)
     except:
         lang = "en"
 
-    # Hindi voices
+    # Hindi Voices
     if lang == "hi":
+
         if gender == "male":
             voice = "hi-IN-MadhurNeural"
         else:
             voice = "hi-IN-SwaraNeural"
 
-    # English voices
+    # English Voices
     else:
-        if gender == "male":
-            voice = "en-IN-PrabhatNeural"
+
+        if style == "cheerful":
+            voice = "en-US-JennyNeural"
+
+        elif style == "friendly":
+            voice = "en-US-AriaNeural"
+
+        elif style == "excited":
+            voice = "en-US-AnaNeural"
+
+        elif style == "hopeful":
+            voice = "en-US-BrandonNeural"
+
+        elif style == "sad":
+            voice = "en-US-EmmaNeural"
+
         else:
-            voice = "en-IN-NeerjaNeural"
+            if gender == "male":
+                voice = "en-US-GuyNeural"
+            else:
+                voice = "en-US-JennyNeural"
 
     audio_bytes = asyncio.run(
         generate_audio(text, voice, speed)
@@ -92,7 +70,8 @@ def convert():
         audio_data=audio_data,
         text=text,
         gender=gender,
-        speed=speed
+        speed=speed,
+        style=style
     )
 
 

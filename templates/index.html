@@ -101,14 +101,14 @@
                 0.75x
             </option>
 
-            <option value="-15%"
-                {% if speed=="-15%" %}selected{% endif %}>
-                0.85x
+            <option value="-20%"
+                {% if speed=="-20%" %}selected{% endif %}>
+                0.8x
             </option>
 
-            <option value="-5%"
-                {% if speed=="-5%" %}selected{% endif %}>
-                0.95x
+            <option value="-10%"
+                {% if speed=="-10%" %}selected{% endif %}>
+                0.9x
             </option>
 
             <option value="+0%"
@@ -134,6 +134,44 @@
         </select>
 
         <br><br>
+
+<label>Style:</label>
+
+<select name="style">
+
+    <option value="normal"
+        {% if style=="normal" %}selected{% endif %}>
+        Normal
+    </option>
+
+    <option value="cheerful"
+        {% if style=="cheerful" %}selected{% endif %}>
+        Cheerful
+    </option>
+
+    <option value="friendly"
+        {% if style=="friendly" %}selected{% endif %}>
+        Friendly
+    </option>
+
+    <option value="excited"
+        {% if style=="excited" %}selected{% endif %}>
+        Excited
+    </option>
+
+    <option value="hopeful"
+        {% if style=="hopeful" %}selected{% endif %}>
+        Hopeful
+    </option>
+
+    <option value="sad"
+        {% if style=="sad" %}selected{% endif %}>
+        Sad
+    </option>
+
+</select>
+
+    <br><br>
 
         <button type="submit">
             Generate Audio
